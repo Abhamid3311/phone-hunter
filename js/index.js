@@ -22,7 +22,7 @@ const displaySearchResults = (phones) => {
         <div class="card">
             <img src="${phone.image}" class="card-img-top img-fluid">
             <div class="card-body">
-                 <h4 class="card-title">${phone.phone_name}</h4>
+                 <h5 class="card-title">${phone.phone_name}</h5>
                  <h6 class="card-title">Brand name: ${phone.brand}</h6>
                  <button onclick="loadPhoneDetails('${phone.slug}')" class="btn btn-primary">Explorer</button>
             </div>
@@ -57,10 +57,22 @@ const displayPhoneDetails = (detail) => {
                 
             </div>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item">storage: ${detail.mainFeatures.storage}</li>
+                <li class="list-group-item">Storage: ${detail.mainFeatures.storage}</li>
                 <li class="list-group-item">Display: ${detail.mainFeatures.displaySize}</li>
                 <li class="list-group-item">Chip Set: ${detail.mainFeatures.chipSet}</li>
                 <li class="list-group-item">Memory: ${detail.mainFeatures.memory}</li>
+
+                <li class="list-group-item"><b>Sensors:</b></li>
+                <li class="list-group-item"> ${detail.mainFeatures.sensors}</li>
+                
+                <li class="list-group-item"><b>Other Features</b></li>
+                <li class="list-group-item">WLAN: ${detail.others.WLAN}</li>
+                <li class="list-group-item">Bluetooth: ${detail.others.Bluetooth}</li>
+                <li class="list-group-item">GPS: ${detail.others.GPS}</li>
+                <li class="list-group-item">Radio: ${detail.others.Radio}</li>
+                <li class="list-group-item">NFC: ${detail.others.NFC}</li>
+                <li class="list-group-item">USB: ${detail.others.USB}</li>
+                
             </ul>
 
             <div class="card-body">
@@ -70,7 +82,4 @@ const displayPhoneDetails = (detail) => {
         </div>
     `;
     phoneDetail.appendChild(div);
-
-
-
 }
