@@ -2,18 +2,25 @@
 const alertMsg = (display) => {
     const searchMsg = document.getElementById('search-msg');
     searchMsg.style.display = display;
-}
+};
+//spinner
+const toggleSpinner = (view) => {
+    const spinnerView = document.getElementById('spinner');
+    spinnerView.style.display = view;
+};
 
 //Search Phone Area
-const searchFood = () => {
+const searchField = () => {
     const inputField = document.getElementById('input-search');
     const inputText = inputField.value;
     //clear search field
     inputField.value = '';
     if (inputText == "") {
         alertMsg('block');
+        toggleSpinner('none');
     } else {
         alertMsg('none');
+        toggleSpinner('block');
         //data load
         const url = `https://openapi.programming-hero.com/api/phones?search=${inputText}`;
         fetch(url)
@@ -23,14 +30,20 @@ const searchFood = () => {
 };
 
 const displaySearchResults = (phones) => {
-    const searchResults = document.getElementById('search-result');
-    //clear search result field
-    searchResults.textContent = '';
-    phones.forEach(phone => {
-        // console.log(phone);
-        const col = document.createElement('div');
-        col.innerHTML = `
-        <div class="card">
+    console.log(phones);
+    if (phones.length == 0) {
+        alertMsg('block');
+        toggleSpinner('none')
+    } else {
+        alertMsg('none');
+        const searchResults = document.getElementById('search-result');
+        //clear search result field
+        searchResults.textContent = '';
+        phones.forEach(phone => {
+            // console.log(phone);
+            const col = document.createElement('div');
+            col.innerHTML = `
+        <div class="card shadow rounded">
             <img src="${phone.image}" class="card-img-top img-fluid">
             <div class="card-body">
                  <h5 class="card-title">${phone.phone_name}</h5>
@@ -38,8 +51,10 @@ const displaySearchResults = (phones) => {
                  <button onclick="loadPhoneDetails('${phone.slug}')" class="btn btn-primary">Explorer</button>
             </div>
         </div>`
-        searchResults.appendChild(col);
-    })
+            searchResults.appendChild(col);
+        });
+        toggleSpinner('none');
+    }
 };
 
 
@@ -67,7 +82,7 @@ const displayPhoneDetails = (detail) => {
             <div class="card-body">
                 <h5 class="card-title">${detail.name}</h5>
                 <h6 class="card-text">Brand Name: ${detail.brand}</h6>
-                <p class="card-title">${detail.releaseDate}</p>
+                <p class="card-title">${detail.releaseDate ? detail.releaseDate : 'not available'}</p>
                 
             </div>
             <ul class="list-group list-group-flush">
