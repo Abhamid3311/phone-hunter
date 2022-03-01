@@ -89,8 +89,8 @@ const displayPhoneDetails = (detail) => {
             </ul>
 
             <div class="card-body">
-                <a href="#" class="card-link btn btn-primary ">Buy Now</a>
-                <a href="#" class="card-link btn btn-primary">add to cart</a>
+                <a href="#" class="card-link btn btn-primary ">Buy Now <i class="bi bi-arrow-right"></i></a>
+                <a href="#" class="card-link btn btn-primary">add to cart <i class="bi bi-bag-check"></i></a>
             </div>
         </div>`;
     phoneDetail.appendChild(div);
