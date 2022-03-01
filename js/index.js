@@ -9,12 +9,15 @@ const toggleSpinner = (view) => {
     spinnerView.style.display = view;
 };
 
-//Search Phone Area
+//Search Phone 
 const searchField = () => {
     const inputField = document.getElementById('input-search');
     const inputText = inputField.value;
     //clear search field
     inputField.value = '';
+    //clear detail field
+    const phoneDetail = document.getElementById('phone-detail');
+    phoneDetail.textContent = '';
     if (inputText == "") {
         alertMsg('block');
         toggleSpinner('none');
@@ -25,22 +28,22 @@ const searchField = () => {
         const url = `https://openapi.programming-hero.com/api/phones?search=${inputText}`;
         fetch(url)
             .then(res => res.json())
-            .then(phones => displaySearchResults(phones.data));
+            .then(phones => displaySearchResults((phones.data).slice(0, 20)));
     }
+    document.getElementById('load-more').style.display = "block";
 };
 
 const displaySearchResults = (phones) => {
-    console.log(phones);
     if (phones.length == 0) {
         alertMsg('block');
         toggleSpinner('none')
     } else {
         alertMsg('none');
         const searchResults = document.getElementById('search-result');
+
         //clear search result field
         searchResults.textContent = '';
         phones.forEach(phone => {
-            // console.log(phone);
             const col = document.createElement('div');
             col.innerHTML = `
         <div class="card shadow rounded">
@@ -48,9 +51,9 @@ const displaySearchResults = (phones) => {
             <div class="card-body">
                  <h5 class="card-title">${phone.phone_name}</h5>
                  <h6 class="card-title">Brand name: ${phone.brand}</h6>
-                 <button onclick="loadPhoneDetails('${phone.slug}')" class="btn btn-primary">Explorer</button>
+                 <a href="#" onclick="loadPhoneDetails('${phone.slug}')" class="btn btn-primary">Explorer</a>
             </div>
-        </div>`
+        </div>`;
             searchResults.appendChild(col);
         });
         toggleSpinner('none');
@@ -61,7 +64,6 @@ const displaySearchResults = (phones) => {
 //Phone Details
 
 const loadPhoneDetails = (phoneId) => {
-    // console.log(phoneId);
     const phoneUrl = ` https://openapi.programming-hero.com/api/phone/${phoneId}`;
     fetch(phoneUrl)
         .then(res => res.json())
@@ -69,7 +71,6 @@ const loadPhoneDetails = (phoneId) => {
 };
 
 const displayPhoneDetails = (detail) => {
-    console.log(detail);
     const phoneDetail = document.getElementById('phone-detail');
     //clear phone detail
     phoneDetail.textContent = '';
@@ -86,21 +87,21 @@ const displayPhoneDetails = (detail) => {
                 
             </div>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item">Storage: ${detail.mainFeatures.storage}</li>
-                <li class="list-group-item">Display: ${detail.mainFeatures.displaySize}</li>
-                <li class="list-group-item">Chip Set: ${detail.mainFeatures.chipSet}</li>
-                <li class="list-group-item">Memory: ${detail.mainFeatures.memory}</li>
+                <li class="list-group-item">Storage: ${detail?.mainFeatures.storage}</li>
+                <li class="list-group-item">Display: ${detail?.mainFeatures.displaySize}</li>
+                <li class="list-group-item">Chip Set: ${detail?.mainFeatures.chipSet}</li>
+                <li class="list-group-item">Memory: ${detail?.mainFeatures.memory}</li>
 
                 <li class="list-group-item"><b>Sensors</b></li>
-                <li class="list-group-item"> ${detail.mainFeatures.sensors}</li>
+                <li class="list-group-item"> ${detail?.mainFeatures.sensors}</li>
                 
                 <li class="list-group-item"><b>Other Features</b></li>
-                <li class="list-group-item">WLAN: ${detail.others.WLAN}</li>
-                <li class="list-group-item">Bluetooth: ${detail.others.Bluetooth}</li>
-                <li class="list-group-item">GPS: ${detail.others.GPS}</li>
-                <li class="list-group-item">Radio: ${detail.others.Radio}</li>
-                <li class="list-group-item">NFC: ${detail.others.NFC}</li>
-                <li class="list-group-item">USB: ${detail.others.USB}</li>
+                <li class="list-group-item">WLAN: ${detail?.others?.WLAN}</li>
+                <li class="list-group-item">Bluetooth: ${detail?.others?.Bluetooth}</li>
+                <li class="list-group-item">GPS: ${detail?.others?.GPS}</li>
+                <li class="list-group-item">Radio: ${detail?.others?.Radio}</li>
+                <li class="list-group-item">NFC: ${detail?.others?.NFC}</li>
+                <li class="list-group-item">USB: ${detail?.others?.USB}</li>
             </ul>
 
             <div class="card-body">
