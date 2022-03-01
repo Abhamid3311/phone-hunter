@@ -1,17 +1,28 @@
+//Alert Message
+const alertMsg = (display) => {
+    const searchMsg = document.getElementById('search-msg');
+    searchMsg.style.display = display;
+}
+
+//Search Phone Area
 const searchFood = () => {
     const inputField = document.getElementById('input-search');
     const inputText = inputField.value;
     //clear search field
     inputField.value = '';
-    //data load
-    const url = `https://openapi.programming-hero.com/api/phones?search=${inputText}`;
-    fetch(url)
-        .then(res => res.json())
-        .then(phones => displaySearchResults(phones.data));
+    if (inputText == "") {
+        alertMsg('block');
+    } else {
+        alertMsg('none');
+        //data load
+        const url = `https://openapi.programming-hero.com/api/phones?search=${inputText}`;
+        fetch(url)
+            .then(res => res.json())
+            .then(phones => displaySearchResults(phones.data));
+    }
 };
 
 const displaySearchResults = (phones) => {
-
     const searchResults = document.getElementById('search-result');
     //clear search result field
     searchResults.textContent = '';
@@ -31,6 +42,9 @@ const displaySearchResults = (phones) => {
     })
 };
 
+
+//Phone Details
+
 const loadPhoneDetails = (phoneId) => {
     // console.log(phoneId);
     const phoneUrl = ` https://openapi.programming-hero.com/api/phone/${phoneId}`;
@@ -45,9 +59,9 @@ const displayPhoneDetails = (detail) => {
     //clear phone detail
     phoneDetail.textContent = '';
     const div = document.createElement('div');
-
     div.classList.add('card');
     div.innerHTML = `
+    <h3>Phone Details:</h3>
         <div class="card w-50 h-50 mx-auto">
             <img src="${detail.image}" class="card-img-top img-fluid">
             <div class="card-body">
@@ -62,7 +76,7 @@ const displayPhoneDetails = (detail) => {
                 <li class="list-group-item">Chip Set: ${detail.mainFeatures.chipSet}</li>
                 <li class="list-group-item">Memory: ${detail.mainFeatures.memory}</li>
 
-                <li class="list-group-item"><b>Sensors:</b></li>
+                <li class="list-group-item"><b>Sensors</b></li>
                 <li class="list-group-item"> ${detail.mainFeatures.sensors}</li>
                 
                 <li class="list-group-item"><b>Other Features</b></li>
@@ -72,14 +86,12 @@ const displayPhoneDetails = (detail) => {
                 <li class="list-group-item">Radio: ${detail.others.Radio}</li>
                 <li class="list-group-item">NFC: ${detail.others.NFC}</li>
                 <li class="list-group-item">USB: ${detail.others.USB}</li>
-                
             </ul>
 
             <div class="card-body">
-                <a href="#" class="card-link btn btn-primary">Buy Now</a>
+                <a href="#" class="card-link btn btn-primary ">Buy Now</a>
                 <a href="#" class="card-link btn btn-primary">add to cart</a>
             </div>
-        </div>
-    `;
+        </div>`;
     phoneDetail.appendChild(div);
 }
